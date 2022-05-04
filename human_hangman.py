@@ -5,19 +5,42 @@ import random
 guessed_letters = []
 result = []
 
-def choose_word():
+c = 0
+
+def choose_word(z):
 
     """This function will randomly choose
     a word for the player to guess."""
 
-    string = str(words[random.randint(1, len(words))])
+    computer_string = ""
+
+    if z == 0:
+        string = words[random.randint(0, len(words) - 1)]
+
+    #if z == 1:
+     #   if c == 0:
+      #      string = input("""\nPick a word for the computer to guess:
+       #     
+#> """)
+ #           computer_string += string
+  #          c += 1
+   #     
+    #    elif c != 0:
+     #       return computer_string
 
     return string
-    
 
-word = choose_word()
+word1 = choose_word(0)
 
-def guess_letter(n=None):
+c = 0
+if c > 0:
+    word2 = input("""\nPick a word for the computer to guess:
+           
+> """)
+
+c += 1
+
+def guess_letter(k, n=None):
 
     """In human hangman mode, it lets the user guess a letter.
     In computer hangman mode, it lets the computer guess a letter."""
@@ -28,7 +51,6 @@ def guess_letter(n=None):
     if n == None:
         
         letter = input("""\nGuess a letter:
-
 > """)
 
     else:
@@ -39,7 +61,6 @@ def guess_letter(n=None):
     while letter not in letters:
         letter = input("""\nPlease make sure to choose a valid letter.
         
-
 > """)
 
     result.clear()
@@ -53,23 +74,41 @@ def guess_letter(n=None):
     if letter not in guessed_letters:
         guessed_letters.append(letter)
 
-    for i in word:
-        if before == True:
-            attempts = False
-        if i == letter and letter in guessed_letters:
-            attempts = False
-        if i in guessed_letters:
-            result.append(i)
-        elif i not in guessed_letters:
-            result.append("_")
+    if k == 0:
+
+        for i in word1:
+            if before == True:
+                attempts = False
+            if i == letter and letter in guessed_letters:
+                attempts = False
+            if i in guessed_letters:
+                result.append(i)
+            elif i not in guessed_letters:
+                result.append("_")
+    
+    elif k == 1:
+
+        for i in word2:
+            if before == True:
+                attempts = False
+            if i == letter and letter in guessed_letters:
+                attempts = False
+            if i in guessed_letters:
+                result.append(i)
+            elif i not in guessed_letters:
+                result.append("_")
 
 
     print("\n" + "".join(result))
     
     if "_" not in result:
         win = True
-        print(f"\nYou win! The word was {word}.")
-        exit()
+        if k == 0:
+            print(f"\nYou win! The word was {word1}.")
+            exit()
+        if k == 1:
+            print(f"\nYou win! The word was {word2}.")
+            exit()
 
     if win == False:
         print("\nGuessed letters: " + ", ".join(guessed_letters))
@@ -81,9 +120,9 @@ def play():
      can guess in human hangman mode."""
 
     guesses = 5
-    
+
     while guesses > 1:
-        guess_letter()
+        guess_letter(0)
 
         if attempts == True:
             guesses -= 1
@@ -93,14 +132,15 @@ def play():
             print("\nYou have 1 remaining guess.")
 
     while guesses == 1:
-        guess_letter()
+        guess_letter(0)
 
         if attempts == True:
             guesses -= 1
-            print(f"\nYou lose. The word was {word}.\n")
+            print(f"\nYou lose. The word was {word1}.\n")
             exit()
         else:
             print("\nYou have 1 remaining guess.")
+    
 
 chosen_letters = []
 
@@ -116,7 +156,7 @@ def pick_word():
 
     return "".join(chosen_words)
 
-guessable_letters = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split()
+guessable_letters = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split(",")
 letter_frequency = []
 
 def best_letter():
@@ -134,21 +174,16 @@ def best_letter():
     for w in word_list:
         for c in w:
             word_letters.append(c)
-    
-    ordered_letters = sorted(word_letters)
 
-    for l in ordered_letters:
+    for l in guessable_letters:
         letter_frequency.append(word_letters.count(l))
-    
-    for b in letter_frequency:
-        if b in letter_frequency:
-            letter_frequency.remove(b)
 
 
-    chosen_letter = guessable_letters[letter_frequency.index(max(letter_frequency))]
+    chosen_letter = guessable_letters[letter_frequency.index(max(letter_frequency)) - 1]
     guessable_letters.remove(chosen_letter)
-    letter_frequency.remove(max(letter_frequency))
+    letter_frequency.clear()
     chosen_letters.append(chosen_letter)
+
 
     return chosen_letter
 
@@ -157,5 +192,8 @@ def keep_playing():
     tries = 5
 
     while tries > 0:
-        guess_letter(1)
+        guess_letter(1, 1)
         tries -= 1
+
+    if tries == 0:
+        print(f"You lose. The word was {word2}.")

@@ -3,6 +3,7 @@ from human_hangman import choose_word, guess_letter, play
 import sys
 from human_hangman import keep_playing
 
+
 def welcome():
 
     "Greets the user"
@@ -66,12 +67,14 @@ def game_mode():
         response = input("""\nInvalid action. Please choose from one of the options above (type 1, 2 or 3).
 
 > """)
-    
+
     if response == "1":
         play()
 
-    if response == "2":
+    elif response == "2":
         keep_playing()
 
-    if response == "3":
+    elif response == "3":
         start()
+    
+    
