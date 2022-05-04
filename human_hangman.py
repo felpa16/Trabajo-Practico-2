@@ -103,9 +103,10 @@ def play():
             print("\nYou have 1 remaining guess.")
 
 chosen_letters = []
-chosen_words = []
 
 def pick_word():
+
+    chosen_words = []
     
     if len(chosen_letters) < 1:
         chosen_word = input("""\nPick a word for the computer to guess:
@@ -115,21 +116,18 @@ def pick_word():
 
     return "".join(chosen_words)
 
+guessable_letters = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".split()
 letter_frequency = []
-ordered_letters = []
-
-sorted_words = [words.sort(key=len)]
 
 def best_letter():
-    
+
     word_list = []
+    
     word2 = pick_word()
 
-    for e in sorted_words:
+    for e in words:
         if len(e) == len(word2):
             word_list.append(e)
-        if len(word_list) > 0 and len(e) > len(word2):
-            break
 
     word_letters = []
 
@@ -137,17 +135,19 @@ def best_letter():
         for c in w:
             word_letters.append(c)
     
-    word_letters.sort()
+    ordered_letters = sorted(word_letters)
 
-    for l in word_letters:
+    for l in ordered_letters:
         letter_frequency.append(word_letters.count(l))
-        continue
+    
+    for b in letter_frequency:
+        if b in letter_frequency:
+            letter_frequency.remove(b)
 
 
-    chosen_letter = ordered_letters[letter_frequency.index(max(letter_frequency))]
-    ordered_letters.remove(chosen_letter)
+    chosen_letter = guessable_letters[letter_frequency.index(max(letter_frequency))]
+    guessable_letters.remove(chosen_letter)
     letter_frequency.remove(max(letter_frequency))
-
     chosen_letters.append(chosen_letter)
 
     return chosen_letter
