@@ -1,7 +1,4 @@
 from hangman_words import words
-from human_hangman import choose_word, guess_letter, play
-import sys
-from human_hangman import keep_playing
 
 
 def welcome():
@@ -38,7 +35,7 @@ def start():
 > """)
     
     if answer == "1":
-        game_mode()
+        return 1
     
     elif answer == "2":
         word_list()
@@ -69,12 +66,12 @@ def game_mode():
 > """)
 
     if response == "1":
-        play()
+        return 1
 
     elif response == "2":
-        keep_playing()
+        return 2
 
     elif response == "3":
-        start()
+        return 3
     
-    
+    return response
