@@ -49,7 +49,7 @@ def start():
 def game_mode():
 
     """Asks the user what game mode they want to play and
-    then executes the chosen game mode."""
+    then returns the chosen game mode."""
 
     response = input("""\nGreat! What game mode would you like to play?
     
@@ -62,7 +62,6 @@ def game_mode():
     while response != "1" and response != "2" and response != "3":
 
         response = input("""\nInvalid action. Please choose from one of the options above (type 1, 2 or 3).
-
 > """)
 
     if response == "1":
